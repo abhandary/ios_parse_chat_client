@@ -11,12 +11,15 @@ import Parse
 
 class ChatViewController: UIViewController {
 
+    @IBOutlet weak var messageTextField: UITextField!
     var user: PFUser?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         print(user)
+
+        
         
 
         // Do any additional setup after loading the view.
@@ -28,6 +31,22 @@ class ChatViewController: UIViewController {
     }
     
 
+    @IBAction func composeClicked(_ sender: AnyObject) {
+        
+        let msg = PFObject(className:"Message")
+        msg["user"] = user!.username!
+        msg["text"] = messageTextField.text!
+
+        msg.saveInBackground { (success, error) in
+            if success {
+                print(msg);
+            } else {
+                print(error?.localizedDescription);
+            }
+        }
+    }
+    
+    
     /*
     // MARK: - Navigation
 

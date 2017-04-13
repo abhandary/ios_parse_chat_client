@@ -67,7 +67,8 @@ class ViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "successSegue" {
-            let chatVC = segue.destination as! ChatViewController
+            let navVC = segue.destination as! UINavigationController
+            let chatVC = navVC.topViewController as! ChatViewController
             chatVC.user = passedUser
             
         }
