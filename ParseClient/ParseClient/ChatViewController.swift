@@ -34,8 +34,10 @@ class ChatViewController: UIViewController {
         
         
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
-            let query = PFQuery(className:"Message")
-            query.whereKey("user", equalTo: self.user!.username)
+            let query = PFQuery(className:"AkshayKevinMessage")
+            let str = self.user!.username! as NSString
+            // query.whereKey("user", equalTo: str)
+            query.includeKey("user")
             query.addDescendingOrder("createdAt")
             
             query.findObjectsInBackground(block: { (msgs, error) in
@@ -62,9 +64,10 @@ class ChatViewController: UIViewController {
 
     @IBAction func composeClicked(_ sender: AnyObject) {
         
-        let msg = PFObject(className:"Message")
+        let msg = PFObject(className:"AkshayKevinMessage")
         msg["user"] = user!.username!
         msg["text"] = messageTextField.text!
+
 
         msg.saveInBackground { (success, error) in
             if success {
@@ -102,7 +105,7 @@ extension ChatViewController : UITableViewDelegate, UITableViewDataSource {
         
         
         cell.textLabel?.text = msg.object(forKey: "text") as? String
-        
+        cell.detailTextLabel?.text = msg.object(forKey: "user") as? String
         
         return cell
     }
